@@ -5,6 +5,7 @@ namespace PassIn.Api.Controllers;
 using PassIn.Application.UseCases.Events.Register;
 using PassIn.Communication.Requests;
 using PassIn.Communication.Responses;
+using PassIn.Exceptions;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -22,7 +23,7 @@ public class EventsController : ControllerBase
 
             return Created();
         }
-        catch (ArgumentException ex)
+        catch (PassInException ex)
         {
             return BadRequest(new ResponseErrorJson(ex.Message));
         }
