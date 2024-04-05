@@ -1,9 +1,19 @@
+using PassIn.Application.UseCases.Events.GetById;
+using PassIn.Application.UseCases.Events.Register;
+using PassIn.Infrastructure;
+using PassIn.Infrastructure.Contracts;
+using PassIn.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<GetEventByIdUseCase>();
+builder.Services.AddScoped<RegisterEventUseCase>();
+builder.Services.AddScoped<PassInDbContext>();
 
 var app = builder.Build();
 

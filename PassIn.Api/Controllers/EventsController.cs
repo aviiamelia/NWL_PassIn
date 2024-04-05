@@ -15,11 +15,10 @@ public class EventsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(ResponseRegisterEventJsoncs),StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
-    public IActionResult Register([FromBody] RequestEventJson request)
+    public IActionResult Register([FromBody] RequestEventJson request, RegisterEventUseCase useCase )
     {
         try
         {
-            var useCase = new RegisterEventUseCase();
             var response = useCase.Execute(request);
 
             return Created(string.Empty, response);
@@ -37,12 +36,11 @@ public class EventsController : ControllerBase
     [Route("{id}")]
     [ProducesResponseType(typeof(ResponseEventJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
-    public IActionResult GetById([FromRoute] Guid id)
+    public IActionResult GetById([FromRoute] Guid id, GetEventByIdUseCase useCase)
     {
         
         try
         {
-            var useCase = new GetEventByIdUseCase();
             var response = useCase.Execute(id);
             return Ok(response);
         }

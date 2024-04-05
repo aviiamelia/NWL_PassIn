@@ -1,14 +1,16 @@
 ﻿using PassIn.Communication.Responses;
 using PassIn.Exceptions;
-using PassIn.Infrastructure;
+using PassIn.Infrastructure.Contracts;
 
 namespace PassIn.Application.UseCases.Events.GetById;
 public class GetEventByIdUseCase
 {
+    private readonly IEventRepository _repository;
+    public GetEventByIdUseCase (IEventRepository repository) => _repository = repository;
     public ResponseEventJson Execute(Guid id)
     {
-        var dbContext = new PassInDbContext();
-        var entity = dbContext.Events.Find(id);
+ 
+        var entity = _repository.GetById(id);
         if (entity is null)
         {
             throw new PassInException("Event not found");

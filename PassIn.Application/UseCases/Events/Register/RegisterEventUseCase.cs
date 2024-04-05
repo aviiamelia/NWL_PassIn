@@ -1,29 +1,21 @@
 ﻿using PassIn.Communication.Requests;
 using PassIn.Communication.Responses;
 using PassIn.Exceptions;
-using PassIn.Infrastructure;
-using PassIn.Infrastructure.Entities;
+using PassIn.Infrastructure.Contracts;
 
 namespace PassIn.Application.UseCases.Events.Register;
 public class RegisterEventUseCase
 {
+    private readonly IEventRepository _repository;
+    public RegisterEventUseCase(IEventRepository repository) => _repository = repository;
     public ResponseRegisterEventJsoncs Execute(RequestEventJson request)
     {
-       Validate(request);
-        var dbContext = new PassInDbContext();
-        var entity = new Event
-        {
-            Title = request.Title,
-            Details = request.Details,
-            Maximum_Attendees = request.MaximumAttendees,
-            Slug = request.Title.ToLower().Replace(" ", "_")
-        };
+       Validate(request);     
 
-        dbContext.Events.Add(entity);
-        dbContext.SaveChanges();
+        var id = _repository.Add(request);
         return new ResponseRegisterEventJsoncs
         {
-            Id = entity.Id
+            Id = id
         };
     }
 
