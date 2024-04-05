@@ -1,9 +1,14 @@
+using PassIn.Application.UseCases.Events.GetById;
+using PassIn.Application.UseCases.Events.Register;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<GetEventByIdUseCase>();
+builder.Services.AddScoped<RegisterEventUseCase>();
 
 var app = builder.Build();
 
